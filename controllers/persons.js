@@ -1,5 +1,6 @@
 const personsRouter = require('express').Router()
 const Person = require('../models/person')
+const Game = require('../models/game')
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -47,6 +48,7 @@ personsRouter.post('/', async (req, res) => {
 personsRouter.delete('/:id', async (req, res) => {
     try {
         await Person.findByIdAndRemove(req.params.id)
+        await Game.remove()
         res.status(204).end()
     } catch (exception) {
         console.log(exception)

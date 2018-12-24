@@ -21,7 +21,7 @@ gamesRouter.get('/', async (req, res) => {
 gamesRouter.post('/', async (req, res) => {
     try {
         const body = req.body
-
+        await Game.remove()
         const persons = await Person
             .find({})
         const list = shuffle(persons.map(function (person) {
