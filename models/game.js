@@ -2,14 +2,17 @@ const mongoose = require('mongoose')
 
 const gameSchema = new mongoose.Schema({
     name: String,
-    players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person' }]
+    order: [{
+        player: {type: mongoose.Schema.Types.ObjectId, ref: 'Person'},
+        target: {type: mongoose.Schema.Types.ObjectId, ref: 'Person'}
+    }]
 })
 
 gameSchema.statics.format = (game) => {
     return {
         id: game.id,
         name: game.name,
-        players: game.players,
+        order: game.order,
     }
 }
 

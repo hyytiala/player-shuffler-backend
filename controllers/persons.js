@@ -1,5 +1,5 @@
 const personsRouter = require('express').Router()
-const Person =require('../models/person')
+const Person = require('../models/person')
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -26,9 +26,9 @@ personsRouter.post('/', async (req, res) => {
     try {
         const body = req.body
 
-        const existingPerson = await Person.find({ name: body.name })
+        const existingPerson = await Person.find({name: body.name})
         if (existingPerson.length > 0) {
-            return res.status(400).json({ error: 'Name already taken' })
+            return res.status(400).json({error: 'Name already taken'})
         }
         const person = new Person({
             name: body.name,
@@ -40,13 +40,18 @@ personsRouter.post('/', async (req, res) => {
         res.json(Person.format(savedPerson))
     } catch (exception) {
         console.log(exception)
-        res.status(500).json({ error: 'something went wrong...' })
+        res.status(500).json({error: 'something went wrong...'})
     }
 })
 
-personsRouter.delete('/', async (req, res) => {
-    const result = Person.collection.drop()
-    res.json(result)
+personsRouter.delete('/:id', async (req, res) => {
+    try {
+        await Person.findByIdAndRemove(req.params.id)
+        res.status(204).end()
+    } catch (exception) {
+        console.log(exception)
+        res.status(400).send({error: 'malformatted id'})
+    }
 })
 
 module.exports = personsRouter
