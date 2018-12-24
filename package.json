@@ -1,0 +1,32 @@
+{
+  "name": "player-shuffler-backend",
+  "version": "1.0.0",
+  "description": "Backend for player shuffler app",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose",
+    "watch": "cross-env NODE_ENV=development nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyytiala/player-shuffler-backend.git"
+  },
+  "author": "Otto Hyytiälä",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyytiala/player-shuffler-backend/issues"
+  },
+  "homepage": "https://github.com/hyytiala/player-shuffler-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.16"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.4",
+    "nodemon": "^1.18.3"
+  }
+}
