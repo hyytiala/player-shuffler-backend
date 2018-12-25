@@ -26,7 +26,9 @@ personsRouter.get('/', async (req, res) => {
 personsRouter.post('/', async (req, res) => {
     try {
         const body = req.body
-
+        if (body.name.length === 0) {
+            return res.status(400).json({error: 'empty name'})
+        }
         const existingPerson = await Person.find({name: body.name})
         if (existingPerson.length > 0) {
             return res.status(400).json({error: 'Name already taken'})
