@@ -21,9 +21,11 @@ gamesRouter.get('/', async (req, res) => {
 gamesRouter.post('/', async (req, res) => {
     try {
         const body = req.body
-        await Game.remove()
-        const persons = await Person
-            .find({})
+        const persons = await Person.find({})
+        if (persons.length < 2) {
+            return res.status(400).json({error: 'under 2 players'})
+        }
+        await Game.deleteMany()
         const list = shuffle(persons.map(function (person) {
             return person._id
         }))

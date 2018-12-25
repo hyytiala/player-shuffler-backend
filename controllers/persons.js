@@ -48,7 +48,7 @@ personsRouter.post('/', async (req, res) => {
 personsRouter.delete('/:id', async (req, res) => {
     try {
         await Person.findByIdAndRemove(req.params.id)
-        await Game.remove()
+        await Game.deleteMany()
         res.status(204).end()
     } catch (exception) {
         console.log(exception)
