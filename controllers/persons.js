@@ -23,6 +23,19 @@ personsRouter.get('/', async (req, res) => {
     res.json(persons.map(Person.format))
 })
 
+personsRouter.get('/:id', async (req, res) => {
+    let person = await Person
+        .findById(req.params.id)
+    const game = await Game
+        .find({})
+        .populate('order.player', { _id: 1, name: 1 })
+        .populate('order.target', { _id: 1, name: 1 })
+    person = Person.format(person)
+    const found = game[0].order.find(element => element.player.name === person.name)
+    person['target'] = found.target.name
+    res.json(person)
+})
+
 personsRouter.post('/', async (req, res) => {
     try {
         const body = req.body
@@ -33,9 +46,11 @@ personsRouter.post('/', async (req, res) => {
         if (existingPerson.length > 0) {
             return res.status(400).json({error: 'Name already taken'})
         }
+        const pin = Math.random().toString(36).slice(-5);
         const person = new Person({
             name: body.name,
-            alive: true
+            alive: true,
+            pin: pin
         })
 
         const savedPerson = await person.save()
