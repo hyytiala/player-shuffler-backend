@@ -62,6 +62,17 @@ personsRouter.post('/', async (req, res) => {
     }
 })
 
+personsRouter.put('/:id', async (req, res) => {
+    try {
+        const id = req.params.id
+        const person = await Person.findByIdAndUpdate(id, {alive: false}, { new: true })
+        res.json(Person.format(person))
+    } catch (exception) {
+        console.log(exception)
+        res.status(500).json({error: 'something went wrong...'})
+    }
+})
+
 personsRouter.delete('/:id', async (req, res) => {
     try {
         await Person.findByIdAndRemove(req.params.id)
